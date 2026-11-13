@@ -143,7 +143,10 @@
     "maintainerPalash": "Palash Debnath",
     "maintainerShimul": "Shimul Debnath",
     "follow": "Obserwuj",
-    "website": "Strona"
+    "website": "Strona",
+    "hideUntilUpdate": "Ukryj do następnej aktualizacji",
+    "hideThanks": "Dziękujemy za odwiedzenie naszych współtwórców! Wróci to z następną aktualizacją.",
+    "hoHoHo": "Ho, ho, ho!"
   },
   "twilioIntegration": {
     "exposureWarning": "Włączenie otwiera osobny port lokalny, który Twój tunel publikuje w internecie. Akceptowane są tylko żądania podpisane Twoim Auth Token Twilio; reszta VoiceStudio pozostaje prywatna.",
@@ -4374,5 +4377,31 @@
     "error_busy": "GPU jest zajęte innym zadaniem. Spróbuj ponownie za chwilę.",
     "error_timeout": "Generowanie tego efektu trwało zbyt długo. Spróbuj krótszego czasu trwania.",
     "error_out_of_memory": "GPU zabrakło pamięci. Zamknij inne aplikacje obciążające GPU lub spróbuj krótszego czasu trwania."
+  },
+  "generationQueue": {
+    "title": "Kolejka generowania",
+    "waiting_one": "Oczekujące: {{count}}",
+    "waiting_few": "Oczekujące: {{count}}",
+    "waiting_many": "Oczekujące: {{count}}",
+    "waiting_other": "Oczekujące: {{count}}",
+    "added_one": "Dodano do kolejki. Oczekujące: {{count}}",
+    "added_few": "Dodano do kolejki. Oczekujące: {{count}}",
+    "added_many": "Dodano do kolejki. Oczekujące: {{count}}",
+    "added_other": "Dodano do kolejki. Oczekujące: {{count}}",
+    "full": "Kolejka jest pełna ({{count}}). Poczekaj, aż część się zakończy.",
+    "add": "Dodaj do kolejki",
+    "add_hint": "Dodaj ten skrypt do kolejki z bieżącym głosem i ustawieniami. Rozpocznie się po zakończeniu poprzedniego nagrania.",
+    "remove": "Usuń z kolejki",
+    "clear_finished": "Wyczyść zakończone",
+    "cancel_all": "Anuluj wszystko",
+    "position": "Pozycja {{position}}",
+    "voice_changed": "Ten głos zmienił się, gdy nagranie czekało, więc zostało pominięte. Dodaj je ponownie do kolejki, aby użyć zaktualizowanego głosu.",
+    "status": {
+      "queued": "Oczekuje",
+      "running": "Generowanie",
+      "done": "Gotowe",
+      "failed": "Niepowodzenie",
+      "cancelled": "Anulowano"
+    }
   }
 }

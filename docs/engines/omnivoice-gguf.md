@@ -146,6 +146,9 @@ The desktop installers ship this native binary under `resources/bin/`
 Windows on ARM (the x64 binary, run under emulation like the rest of the local
 backend), macOS Apple Silicon and the Linux AppImage/deb. The Windows binary
 carries its own Visual C++ runtime, so no redistributable install is needed.
+The app passes that folder to the backend as `OMNIVOICE_GGUF_BIN_DIR`, so the
+engine finds it wherever the app environment lives
+([#4051](https://github.com/debpalash/VoiceStudio/issues/4051)).
 The Intel Mac download has no binary because Intel Macs cannot run the local
 backend at all ([macOS install](../install/macos.md)). Store builds (Microsoft
 Store, Mac App Store, Snap Store) and the Docker image do not include it yet;
@@ -278,6 +281,21 @@ explicit CPU choice also selects the CPU quant (Q4_K_M) and requires that
 pair to be installed — a larger cached quant is not substituted for it. An
 explicit quant override remains authoritative in either case.
 
+### GPU crash fallback
+
+Some GPU and driver pairs load ggml's Vulkan backend and then crash the
+runtime natively (for example an access violation, exit `3221225477` /
+`0xC0000005`, on a GeForce GTX 1080, a Pascal card without fp16 shaders).
+When a run that could use a GPU (an explicit GPU pin, Metal on Apple Silicon, or
+Vulkan where the runtime ships that module) exits with such a crash code,
+VoiceStudio retries that request on the CPU (`GGML_BACKEND=CPU`) within the time
+left of the original timeout, keeps every later request of the session on the
+CPU (Compute device and the generate timeout then report the CPU), and logs the
+reason once. The CPU quant is not
+re-selected; the loaded pair is reused. Ordinary errors, timeouts and crashes
+of an explicit CPU run are reported unchanged. To skip the GPU attempt on every
+start, set `OMNIVOICE_GGUF_BACKEND=cpu`.
+
 ## Checking Vulkan on your machine
 
 1. **Driver.** Run `vulkaninfo --summary` (installed with the GPU driver on
@@ -394,6 +412,7 @@ log says why once.
 
 | Variable | Default | Meaning |
 | --- | --- | --- |
+| `OMNIVOICE_GGUF_BIN_DIR` | `bin/` at the repo root | Absolute folder holding `omnivoice-tts-<platform>` and `checksums.sha256`; the desktop app sets it to its `resources/bin/` |
 | `OMNIVOICE_GGUF_GENERATE_TIMEOUT_S` | (generous built-in) | Per-generation timeout for the spawned binary |
 | `OMNIVOICE_GGUF_QUANT` | `auto` | Pin a quant (`Q4_K_M`, `Q8_0`, `BF16`, `F32`); overrides Settings |
 | `OMNIVOICE_GGUF_RESIDENT` | `0` | `1` keeps a bundled `tts-server` loaded between requests (opt-in, see Resident server); overrides Settings |
